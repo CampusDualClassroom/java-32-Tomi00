@@ -1,19 +1,24 @@
 package com.campusdual.classroom;
 
-import com.campusdual.util.Utils;
+import  com.campusdual.util.Utils;
 
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 
 public class Exercise32 {
 
     public static void main(String[] args) {
-
+        String input = null; // Change this to a string if you want to test that path
+        String stringToSave = generateStringToSave(input);
+        printToFile(stringToSave);
+        System.out.println("String saved to file: " + stringToSave);
     }
 
-    public static String generateStringToSave(String string) {
 
+    public static String generateStringToSave(String string) {
+        if (string == null) {
+            return generateUserInputToSave();
+        }
+        return string;
     }
 
     private static String generateUserInputToSave(){
@@ -27,7 +32,17 @@ public class Exercise32 {
     }
 
     public static void printToFile(String string) {
+        String filePath = "src/main/resources/data.txt";
 
+
+        File file = new File(filePath);
+        file.getParentFile().mkdirs();
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+            writer.write(string);
+        } catch (IOException e) {
+            System.err.println("Error writing to file: " + e.getMessage());
+        }
     }
 
 
